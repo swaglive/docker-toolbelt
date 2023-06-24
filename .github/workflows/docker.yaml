@@ -30,8 +30,8 @@ jobs:
         echo "NPROC=$((NPROC*2+1))" >> $GITHUB_ENV
         echo "NPROC=$((NPROC*2+1))" >> $GITHUB_OUTPUT
 
-        echo "repo-owner=${{ github.repository_owner }}" >> $GITHUB_OUTPUT
-        echo "repo-name=${GITHUB_REPOSITORY#*/docker-}" >> $GITHUB_OUTPUT
+        echo "image-owner=${{ github.repository_owner }}" >> $GITHUB_OUTPUT
+        echo "image-name=${GITHUB_REPOSITORY#*/docker-}" >> $GITHUB_OUTPUT
 
     - name: Setup - QEMU
       id: qemu
@@ -60,8 +60,8 @@ jobs:
       uses: docker/metadata-action@v4
       with:
         images: |-
-          ${{ steps.config.outputs.repo-owner }}/${{ steps.config.outputs.repo-name }}
-          ghcr.io/${{ steps.config.outputs.repo-owner }}/${{ steps.config.outputs.repo-name }}
+          ${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
+          ghcr.io/${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
         flavor: |-
           latest=${{ !!matrix.latest }}
         tags: |-
