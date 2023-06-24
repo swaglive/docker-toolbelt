@@ -13,7 +13,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: []
+        base:
+        - bash:alpine3.18
+        version:
+        - "1.0.0"
 
     steps:
     - name: Checkout
@@ -64,6 +67,7 @@ jobs:
       with:
         context: .
         build-args: |
+          base=${{ matrix.base }}
           version=${{ matrix.version }}
         push: true
         labels: ${{ steps.meta.outputs.labels }}

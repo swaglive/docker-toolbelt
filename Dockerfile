@@ -1,21 +1,9 @@
-ARG         base=alpine
-
-###
-
-FROM        ${base} as build
-
-ARG         version=
-ARG         repo=
-ARG         arch=amd64
-
-RUN         apk add --no-cache --virtual .build-deps \
-                build-base && \
-            wget -O - https://github.com/${repo}/archive/refs/tags/v${version}.tar.gz | tar xz
+ARG         base=bash:alpine3.18
 
 ###
 
 FROM        ${base}
+ARG         packages="coreutils parallel"
 
-COPY        --from=build /usr/local/bin /usr/local/bin
-COPY        --from=build /usr/local/include /usr/local/include
-COPY        --from=build /usr/local/lib /usr/local/lib
+RUN         apk add --no-cache --virtual .run-deps ${packages} && \
+            echo 'will cite' | parallel --citation || true
